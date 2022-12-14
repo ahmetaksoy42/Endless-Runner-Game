@@ -160,7 +160,8 @@ public class Player : MonoBehaviour
         }
         if (other.CompareTag("MagnetActivator"))
         {
-            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            Destroy(other.gameObject);
+           // other.gameObject.GetComponent<MeshRenderer>().enabled = false;
             Magnet.isMagnetActive = true;
             /*
             StartCoroutine(ActivateMagnet());

@@ -9,12 +9,17 @@ public class MagnetActivator : MonoBehaviour
     private void Start()
     {
         gameObject.SetActive(false);
-        x = Random.Range(0,20);
+
+        x = Random.Range(0,50);
 
         if (x == 2)
         {
             gameObject.SetActive(true);
         }
+    }
+    private void Update()
+    {
+        transform.Rotate(0, 1, 0, Space.World);
     }
     /*
     private void OnTriggerEnter(Collider other)

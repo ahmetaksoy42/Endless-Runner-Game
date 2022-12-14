@@ -6,6 +6,8 @@ using TMPro;
 
 public class Distance : MonoBehaviour
 {
+    public int scoreAdd = 1;
+
     public GameObject disBorder;
     
     public int score=1;
@@ -41,9 +43,9 @@ public class Distance : MonoBehaviour
 
     }
 
-    IEnumerator AddingDis()
+    public IEnumerator AddingDis()
     {
-        score += 1;
+        score += scoreAdd;
         disBorder.GetComponent<Text>().text = "" + score;
         yield return new WaitForSeconds(addDistanceTime);
         addingDis = false;

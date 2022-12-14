@@ -14,7 +14,7 @@ public class RoadTile : MonoBehaviour
     {
         roadSpawner.SpawnTile(Random.Range(1,6));
 
-        Destroy(gameObject, 3f);
+        Destroy(gameObject, 12f);
     }
 
 }
