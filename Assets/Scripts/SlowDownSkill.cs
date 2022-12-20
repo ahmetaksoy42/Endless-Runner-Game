@@ -7,14 +7,19 @@ public class SlowDownSkill : MonoBehaviour
     public int x;
 
     private Player player;
-    
+
+    MeshRenderer meshRenderer;
+
+
     void Start()
     {
+        meshRenderer = gameObject.GetComponent<MeshRenderer>();
+
         player = Player.Instance;
 
         gameObject.SetActive(false);
 
-        x = Random.Range(0, 50);
+        x = Random.Range(0, 5);
 
         if (x == 2)
         {
@@ -24,7 +29,7 @@ public class SlowDownSkill : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(1, 1, 1, Space.World);
+        transform.Rotate(0.5f, 0.5f, 0.5f, Space.World);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,6 +37,8 @@ public class SlowDownSkill : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             SlowDown();
+
+            meshRenderer.enabled = false;
         }
         Invoke("NormalSpeed", 8f);
     }

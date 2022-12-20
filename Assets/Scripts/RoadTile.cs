@@ -12,7 +12,7 @@ public class RoadTile : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        roadSpawner.SpawnTile(Random.Range(1,6));
+        roadSpawner.SpawnTile(Random.Range(1,10));
 
         Destroy(gameObject, 12f);
     }

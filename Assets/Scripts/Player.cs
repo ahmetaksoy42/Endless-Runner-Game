@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    public bool isUntouchable;
+
+    public AudioSource coinFX;
+
     public float moveSpeed = 15;
 
     public float jumpPower;
@@ -18,13 +22,15 @@ public class Player : MonoBehaviour
 
     public bool isDead;
 
-    public GameObject player;
+   // public GameObject player;
 
     public GameObject gameOverPanel;
 
     public GameObject[] lanes;
 
     public Rigidbody rb;
+
+    public bool immortalMode;
 
     public static Player Instance;
 
@@ -41,6 +47,10 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+       // player = GameObject.FindGameObjectWithTag("Player");
+
+        Magnet.isMagnetActive = false;
+
         coinManager = CoinManager.Instance;
 
         distance = Distance.Instance;
@@ -52,7 +62,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        
+
         transform.position = Vector3.Lerp(transform.position, lanes[laneIndex].transform.position, horizontalSpeed*Time.fixedDeltaTime);
 
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime, Space.World);
@@ -114,8 +124,6 @@ public class Player : MonoBehaviour
             {
                 laneIndex++;
             }
-
-            
         }
     }
 
@@ -125,10 +133,15 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
-               // rb.velocity = Vector3.up * jumpPower* Time.deltaTime;
+                // rb.velocity = Vector3.up * jumpPower* Time.deltaTime;
+                
                 rb.AddForce(0, jumpPower, 0);
+
+               // Invoke("Fall", 0.5f);
+                
             }
         }
+        
     }
     
     
@@ -136,18 +149,28 @@ public class Player : MonoBehaviour
     {
         if (collision.collider.CompareTag("Engel"))
         {
-            deadCount++;
-
-            if(coinManager.coinCount >=20*deadCount)
+            if (isUntouchable)
             {
-                Destroy(collision.gameObject);
-                coinManager.coinCount -= 20*deadCount;
+                Physics.IgnoreCollision(collision.collider.GetComponent<Collider>(), GetComponent<Collider>());
             }
+
             else
             {
-                onDeath();
-                //SceneManager.LoadScene("SampleScene");
+                deadCount++;
+
+                if (coinManager.coinCount >= 20 * deadCount)
+                {
+                    Destroy(collision.gameObject);
+                    coinManager.coinCount -= 20 * deadCount;
+                }
+                else
+                {
+                    onDeath();
+                    //SceneManager.LoadScene("SampleScene");
+                }
             }
+
+            
             
         }
     }
@@ -155,6 +178,7 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Coin"))
         {
+            coinFX.Play();
             coinManager.coinCount++;
             Destroy(other.gameObject);
         }
@@ -180,5 +204,10 @@ public class Player : MonoBehaviour
 
         gameOverPanel.SetActive(true);
 
+        horizontalSpeed = 0;
+    }
+    void Fall()
+    {
+        rb.velocity = Vector3.down * (500) * Time.deltaTime;
     }
 }

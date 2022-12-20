@@ -8,7 +8,7 @@ public class RotateCoin : MonoBehaviour
 
     void Update()
     {
-        transform.Rotate(0, rotateSpeed, 0,Space.World);
+        transform.Rotate(0, rotateSpeed*Time.deltaTime, 0,Space.World);
     }
     /*
     private void OnTriggerEnter(Collider other)

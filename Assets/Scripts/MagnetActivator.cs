@@ -5,21 +5,28 @@ using UnityEngine;
 public class MagnetActivator : MonoBehaviour
 {
     public int x;
+    public float speed = 6.0f;
+    public float distance = 0.2f;
+    private Vector3 startPos;
 
     private void Start()
     {
         gameObject.SetActive(false);
 
-        x = Random.Range(0,50);
+        x = Random.Range(0,5);
 
         if (x == 2)
         {
             gameObject.SetActive(true);
         }
+
+        startPos = transform.position;
     }
     private void Update()
     {
-        transform.Rotate(0, 1, 0, Space.World);
+       // transform.Rotate(0, 10*Time.deltaTime, 0, Space.World);
+
+        transform.position = startPos + new Vector3(0, Mathf.Sin(Time.time * speed), 0) * distance;
     }
     /*
     private void OnTriggerEnter(Collider other)

@@ -18,7 +18,7 @@ public class RoadSpawner : MonoBehaviour
         SpawnTile(0);
         for(int i = 0; i < 20; i++)
         {
-            SpawnTile(Random.Range(1,6));
+            SpawnTile(Random.Range(1,10));
         }
     }
 }

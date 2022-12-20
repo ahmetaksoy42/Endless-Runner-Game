@@ -22,6 +22,8 @@ public class Distance : MonoBehaviour
 
     public TextMeshProUGUI highscoreText;
 
+    public TextMeshProUGUI scoreText;
+
     private void Awake()
     {
         Instance = this;
@@ -35,11 +37,13 @@ public class Distance : MonoBehaviour
             addingDis = true;
             StartCoroutine(AddingDis());
         }
-        if (score > PlayerPrefs.GetInt("HighDistance", score)) 
+
+        if (score > PlayerPrefs.GetInt("HighScore"))
         {
-            PlayerPrefs.SetInt("HighDistance", score);
+            PlayerPrefs.SetInt("HighScore", score);
         }
-        highscoreText.text = "Highscore : " + PlayerPrefs.GetInt("HighDistance", score).ToString();
+
+        ScoreDisplay();
 
     }
 
@@ -49,5 +53,12 @@ public class Distance : MonoBehaviour
         disBorder.GetComponent<Text>().text = "" + score;
         yield return new WaitForSeconds(addDistanceTime);
         addingDis = false;
+    }
+
+    void ScoreDisplay()
+    {
+        scoreText.text = "Your Score :" + score;
+
+        highscoreText.text = "High Score : " + PlayerPrefs.GetInt("HighScore").ToString();
     }
 }

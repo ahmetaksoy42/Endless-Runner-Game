@@ -12,19 +12,23 @@ public class UntouchableSkill : MonoBehaviour
 
     private Rigidbody rb;
 
+    MeshRenderer meshRenderer;
+
     void Start()
     {
+        meshRenderer = gameObject.GetComponent<MeshRenderer>();
+
         player = Player.Instance;
 
         distance = Distance.Instance;
 
-        rb= player.player.GetComponent<Rigidbody>();
+        rb= player.GetComponent<Rigidbody>();
 
         gameObject.SetActive(false);
 
-        x = Random.Range(0, 3);
+        x = Random.Range(0, 2);
 
-        if (x == 2)
+        if (x == 1)
         {
             gameObject.SetActive(true);
         }
@@ -33,18 +37,23 @@ public class UntouchableSkill : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(1, 1, 1, Space.World);
+        transform.Rotate(0.5f, 0.5f, 0.5f, Space.World);
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            player.isUntouchable = true;
+
+            meshRenderer.enabled = false;
+
             Untouchable();
         }
         Invoke("BackToNormal", 8f);
 
-        Invoke("BackToNormal2", 10f);
+        //Invoke("BackToNormal2", 10f);
     }
         
 
@@ -52,33 +61,33 @@ public class UntouchableSkill : MonoBehaviour
     {
         // player.player.GetComponent<Rigidbody>().isKinematic = true;
 
-        rb.constraints = RigidbodyConstraints.FreezePositionY;
+        //rb.constraints = RigidbodyConstraints.FreezePositionY;
 
-        player.player.GetComponent<CapsuleCollider>().isTrigger = true;
+       // player.player.GetComponent<CapsuleCollider>().isTrigger = true;
 
-        player.player.GetComponent<TrailRenderer>().enabled = true;
+       // player.player.GetComponent<TrailRenderer>().enabled = true;
 
-        player.moveSpeed = player.moveSpeed * 2;
+        player.moveSpeed = player.moveSpeed * 1.2f;
 
         distance.scoreAdd = 2;
-
     }
 
     void BackToNormal()
     {
-        player.player.GetComponent<TrailRenderer>().enabled = false;
+        player.isUntouchable = false;
 
-        player.moveSpeed = player.moveSpeed / 2;
+        player.moveSpeed = player.moveSpeed / 1.2f;
 
         distance.scoreAdd = 1;
     }
     void BackToNormal2()
     {
-        player.player.GetComponent<CapsuleCollider>().isTrigger = false;
+       // player.player.GetComponent<CapsuleCollider>().isTrigger = false;
 
-        rb.constraints = RigidbodyConstraints.None;
+       // rb.constraints = RigidbodyConstraints.None;
 
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
+      //  rb.constraints = RigidbodyConstraints.FreezeRotation;
 
     }
+   
 }
