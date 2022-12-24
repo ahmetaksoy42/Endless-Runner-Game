@@ -19,7 +19,7 @@ public class SlowDownSkill : MonoBehaviour
 
         gameObject.SetActive(false);
 
-        x = Random.Range(0, 5);
+        x = Random.Range(0, 20);
 
         if (x == 2)
         {

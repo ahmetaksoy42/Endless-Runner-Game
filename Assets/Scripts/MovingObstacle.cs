@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MovingObstacle : MonoBehaviour
 {
-    public float speed = 1.0f;
+    public float speed;
     public float distance = 4.0f;
     private Vector3 startPos;
 
@@ -14,6 +14,7 @@ public class MovingObstacle : MonoBehaviour
         {
             distance = 2f;
         }
+        speed = Random.Range(0.7f, 1.3f);
 
         startPos = transform.position;
     }

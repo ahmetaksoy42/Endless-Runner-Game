@@ -41,8 +41,8 @@ public class CamFollower : MonoBehaviour
         }
         */
        // targetPos.x = 0;
-       // targetPos.y = 5.412974f;
-        targetPos.y = 8.412974f;
+        targetPos.y = 5.412974f;
+       // targetPos.y = 8.412974f;
 
         //transform.position = Vector3.Lerp(new Vector3(transform.position.x, transform.position.y, transform.position.z), new Vector3(playerScript.lanes[playerScript.laneIndex].transform.position.x,7,targetPos.z), playerScript.horizontalSpeed * Time.fixedDeltaTime);
 

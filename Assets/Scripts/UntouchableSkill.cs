@@ -26,7 +26,7 @@ public class UntouchableSkill : MonoBehaviour
 
         gameObject.SetActive(false);
 
-        x = Random.Range(0, 2);
+        x = Random.Range(0, 20);
 
         if (x == 1)
         {

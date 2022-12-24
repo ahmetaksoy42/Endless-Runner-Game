@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    public bool isGameStarted;
+
     public bool isUntouchable;
 
     public AudioSource coinFX;
@@ -30,6 +32,8 @@ public class Player : MonoBehaviour
 
     public Rigidbody rb;
 
+    public Animator animator; 
+
     public bool immortalMode;
 
     public static Player Instance;
@@ -47,7 +51,9 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-       // player = GameObject.FindGameObjectWithTag("Player");
+        // player = GameObject.FindGameObjectWithTag("Player");
+
+        isGameStarted = false;
 
         Magnet.isMagnetActive = false;
 
@@ -62,7 +68,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-
+        if (isGameStarted==false)
+            return;
+        
         transform.position = Vector3.Lerp(transform.position, lanes[laneIndex].transform.position, horizontalSpeed*Time.fixedDeltaTime);
 
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime, Space.World);
@@ -76,16 +84,6 @@ public class Player : MonoBehaviour
         if (solverBool == true && distance.score %100 != 0)
         {
             solverBool = false;
-        }
-
-
-        if (transform.position.y > 1.8f)
-        {
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                //rb.velocity = Vector3.down * jumpPower * Time.deltaTime;
-                rb.AddForce(0, -700, 0);
-            }
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -117,12 +115,24 @@ public class Player : MonoBehaviour
             }
             */
         }
-
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (laneIndex <2)
             {
                 laneIndex++;
+            }
+        }
+        if (transform.position.y > 1.8f)
+        {
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                //rb.velocity = Vector3.down * jumpPower * Time.deltaTime;
+                StartCoroutine(Fall());
+                /*
+                rb.AddForce(0, -700, 0);
+                animator.SetBool("isJumping", false);
+                animator.SetBool("isFalling", true);
+                */
             }
         }
     }
@@ -134,11 +144,8 @@ public class Player : MonoBehaviour
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 // rb.velocity = Vector3.up * jumpPower* Time.deltaTime;
-                
-                rb.AddForce(0, jumpPower, 0);
-
-               // Invoke("Fall", 0.5f);
-                
+                StartCoroutine(Jump());
+                // Invoke("Fall", 0.5f);
             }
         }
         
@@ -149,7 +156,7 @@ public class Player : MonoBehaviour
     {
         if (collision.collider.CompareTag("Engel"))
         {
-            if (isUntouchable)
+            if (isUntouchable == true)
             {
                 Physics.IgnoreCollision(collision.collider.GetComponent<Collider>(), GetComponent<Collider>());
             }
@@ -158,10 +165,10 @@ public class Player : MonoBehaviour
             {
                 deadCount++;
 
-                if (coinManager.coinCount >= 20 * deadCount)
+                if (coinManager.coinCount >= 10 * deadCount)
                 {
                     Destroy(collision.gameObject);
-                    coinManager.coinCount -= 20 * deadCount;
+                    coinManager.coinCount -= 10 * deadCount;
                 }
                 else
                 {
@@ -206,8 +213,19 @@ public class Player : MonoBehaviour
 
         horizontalSpeed = 0;
     }
-    void Fall()
+
+    public IEnumerator Jump()
     {
-        rb.velocity = Vector3.down * (500) * Time.deltaTime;
+        animator.SetBool("isJumping", true);
+        rb.AddForce(0, jumpPower, 0);
+        yield return new WaitForSeconds(1f);
+        animator.SetBool("isJumping", false);
+
+    }
+    public IEnumerator Fall()
+    {
+        rb.AddForce(0, -700, 0);
+        yield return new WaitForSeconds(0.2f);
+        animator.SetBool("isJumping", false);
     }
 }

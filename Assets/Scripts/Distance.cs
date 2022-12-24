@@ -32,6 +32,10 @@ public class Distance : MonoBehaviour
 
     void Update()
     {
+        if (!Player.Instance.isGameStarted)
+        {
+            return;
+        }
         if(addingDis == false)
         {
             addingDis = true;

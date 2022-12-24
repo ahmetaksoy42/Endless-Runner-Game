@@ -8,7 +8,14 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Gray
-    second: {fileID: 2100000, guid: c6b2e397aa44a744ebff89d6f07fd2ba, type: 2}
+    second: {fileID: 8262812256091982443, guid: 57fc5cf30de4c1f4da15d276043e34db,
+      type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Orange
+    second: {fileID: -382652638819485698, guid: 3d9204c5fa32ede48bd00d9ea543df35,
+      type: 3}
   materials:
     materialImportMode: 1
     materialName: 0
