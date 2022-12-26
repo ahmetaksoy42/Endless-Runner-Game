@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
         if (isGameStarted==false)
             return;
         
-        transform.position = Vector3.Lerp(transform.position, lanes[laneIndex].transform.position, horizontalSpeed*Time.fixedDeltaTime);
+        transform.position = Vector3.Lerp(transform.position, lanes[laneIndex].transform.position, horizontalSpeed*Time.deltaTime);
 
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime, Space.World);
 
@@ -217,14 +217,14 @@ public class Player : MonoBehaviour
     public IEnumerator Jump()
     {
         animator.SetBool("isJumping", true);
-        rb.AddForce(0, jumpPower, 0);
-        yield return new WaitForSeconds(1f);
+        rb.AddForce(0, jumpPower*Time.deltaTime, 0,ForceMode.Impulse);
+        yield return new WaitForSeconds(0.8f);
         animator.SetBool("isJumping", false);
 
     }
     public IEnumerator Fall()
     {
-        rb.AddForce(0, -700, 0);
+        rb.AddForce(0, -jumpPower*3*Time.deltaTime, 0,ForceMode.Impulse);
         yield return new WaitForSeconds(0.2f);
         animator.SetBool("isJumping", false);
     }

@@ -2717,8 +2717,8 @@ GameObject:
   - component: {fileID: 1880378341}
   - component: {fileID: 1880378340}
   - component: {fileID: 1880378338}
-  - component: {fileID: 1880378344}
   - component: {fileID: 1880378343}
+  - component: {fileID: 1880378344}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2835,7 +2835,7 @@ MonoBehaviour:
   isUntouchable: 0
   coinFX: {fileID: 458209275}
   moveSpeed: 12
-  jumpPower: 170
+  jumpPower: 250
   laneIndex: 1
   horizontalSpeed: 5
   solverBool: 0
