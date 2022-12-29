@@ -303,6 +303,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: car3
       objectReference: {fileID: 0}
+    - target: {fileID: 2281741582793455845, guid: df5d4aebbb6cc0440a5cd905a654d1b3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df5d4aebbb6cc0440a5cd905a654d1b3, type: 3}
 --- !u!1 &4422983637538654318 stripped
@@ -473,6 +478,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: car3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2281741582793455845, guid: df5d4aebbb6cc0440a5cd905a654d1b3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df5d4aebbb6cc0440a5cd905a654d1b3, type: 3}

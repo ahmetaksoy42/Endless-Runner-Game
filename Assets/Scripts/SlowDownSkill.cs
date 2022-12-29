@@ -19,7 +19,7 @@ public class SlowDownSkill : MonoBehaviour
 
         gameObject.SetActive(false);
 
-        x = Random.Range(0, 20);
+        x = Random.Range(0, 3);
 
         if (x == 2)
         {
@@ -38,22 +38,28 @@ public class SlowDownSkill : MonoBehaviour
         {
             SlowDown();
 
-            meshRenderer.enabled = false;
+            var playerTransform = new Vector3(other.transform.position.x, other.transform.position.y + 2, other.transform.position.z);
+            transform.parent = other.transform;
+            transform.localScale = transform.localScale / 2;
+            transform.position = playerTransform;
         }
         Invoke("NormalSpeed", 8f);
     }
 
     void SlowDown()
     {
-        player.moveSpeed = player.moveSpeed / 2;
-
-        player.horizontalSpeed = player.horizontalSpeed / 2;
+        var slowspeed = player.moveSpeed / 2;
+        var slowHorizontal = player.horizontalSpeed / 2;
+        player.moveSpeed = slowspeed;
+        player.horizontalSpeed = slowHorizontal;
     }
 
     void NormalSpeed()
     {
-        player.moveSpeed = player.moveSpeed * 2;
+        /*
+        player.moveSpeed = player.moveSpeed;
 
-        player.horizontalSpeed = player.horizontalSpeed * 2;
+        player.horizontalSpeed = player.horizontalSpeed;
+        */
     }
 }

@@ -10,7 +10,7 @@ public class RoadSpawner : MonoBehaviour
 
     public void SpawnTile(int tileIndex)
     {
-        GameObject go = Instantiate(roadTiles[tileIndex], nextSpawnPoint, Quaternion.identity);
+        GameObject go = Instantiate(roadTiles[tileIndex], nextSpawnPoint, Quaternion.identity,transform);
         nextSpawnPoint = go.transform.GetChild(1).transform.position;
     }
     void Start()

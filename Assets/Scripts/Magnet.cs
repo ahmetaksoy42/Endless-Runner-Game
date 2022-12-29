@@ -11,7 +11,7 @@ public class Magnet : MonoBehaviour
     public float magnetForce = 20.0f;
 
     // Mıknatısın kaç saniye çalışacağını belirleyen bir değer
-    public float magnetDuration = 10.0f;
+    public float magnetDuration = 15.0f;
 
     // Mıknatısın kaç saniye çalıştığını tutacak bir değişken
     private float elapsedTime = 0.0f;
@@ -43,7 +43,7 @@ public class Magnet : MonoBehaviour
                     }
                 }
                 elapsedTime += Time.deltaTime;
-                if (elapsedTime>=10)
+                if (elapsedTime>=15)
                 {
                     isMagnetActive = false;
                     elapsedTime = 0;

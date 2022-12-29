@@ -26,7 +26,7 @@ public class MagnetActivator : MonoBehaviour
     {
        // transform.Rotate(0, 10*Time.deltaTime, 0, Space.World);
 
-        transform.position = startPos + new Vector3(0, Mathf.Sin(Time.time * speed), 0) * distance;
+       // transform.position = startPos + new Vector3(0, Mathf.Sin(Time.time * speed), 0) * distance;
     }
     /*
     private void OnTriggerEnter(Collider other)

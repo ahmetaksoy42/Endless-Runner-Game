@@ -26,7 +26,7 @@ public class UntouchableSkill : MonoBehaviour
 
         gameObject.SetActive(false);
 
-        x = Random.Range(0, 20);
+        x = Random.Range(0, 30);
 
         if (x == 1)
         {
@@ -46,9 +46,10 @@ public class UntouchableSkill : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             player.isUntouchable = true;
-
-            meshRenderer.enabled = false;
-
+            var playerTransform = new Vector3(other.transform.position.x, other.transform.position.y+2, other.transform.position.z);
+            transform.parent = other.transform;
+            transform.localScale = transform.localScale / 2;
+            transform.position = playerTransform;
             Untouchable();
         }
         Invoke("BackToNormal", 8f);
@@ -79,6 +80,8 @@ public class UntouchableSkill : MonoBehaviour
         player.moveSpeed = player.moveSpeed / 1.2f;
 
         distance.scoreAdd = 1;
+
+        Destroy(gameObject);
     }
     void BackToNormal2()
     {

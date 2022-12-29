@@ -431,7 +431,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 7b59462d72e2f2e46b91a87f9a9c47e2,
         type: 3}
       propertyPath: m_TagString
-      value: Engel
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b59462d72e2f2e46b91a87f9a9c47e2, type: 3}
@@ -672,7 +672,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 7b59462d72e2f2e46b91a87f9a9c47e2,
         type: 3}
       propertyPath: m_TagString
-      value: Engel
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b59462d72e2f2e46b91a87f9a9c47e2, type: 3}
@@ -999,6 +999,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TB_CITY_Prop_TrafficLight_4Set_Black
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830777517925138686, guid: 4c4579a352e53e14784a0eafdd1a33f0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 6836322588655817386, guid: 4c4579a352e53e14784a0eafdd1a33f0,
         type: 3}

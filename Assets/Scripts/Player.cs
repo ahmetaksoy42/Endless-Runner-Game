@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem runParticle;
+
+    [SerializeField] private ParticleSystem immortalParticle;
+
     public bool isGameStarted;
 
     public bool isUntouchable;
@@ -23,6 +27,10 @@ public class Player : MonoBehaviour
     public bool solverBool;
 
     public bool isDead;
+
+    private bool isJumping;
+
+    private bool wantsToJump;
 
    // public GameObject player;
 
@@ -70,7 +78,7 @@ public class Player : MonoBehaviour
     {
         if (isGameStarted==false)
             return;
-        
+
         transform.position = Vector3.Lerp(transform.position, lanes[laneIndex].transform.position, horizontalSpeed*Time.deltaTime);
 
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime, Space.World);
@@ -81,40 +89,42 @@ public class Player : MonoBehaviour
             distance.addDistanceTime -= 0.01f;
             solverBool = true;
         }
+
         if (solverBool == true && distance.score %100 != 0)
         {
             solverBool = false;
         }
 
+        if (coinManager.coinCount >= 10 * deadCount)
+        {
+            if ((deadCount == 0 && coinManager.coinCount >= 10) || (deadCount > 0 && coinManager.coinCount > (deadCount + 1) * 10))
+            {
+                immortalMode = true;
+            }               
+        }
+        else
+        {
+            immortalMode = false;
+        }
+
+        if (immortalMode)
+        {
+            immortalParticle.Play();
+            Debug.Log("You are immortal");
+        }
+        else
+        {
+            immortalParticle.Stop();
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-
             if (laneIndex>0)
             {
-                laneIndex--;
-            }
-            /*
-           if(desiredLane == -3)
-           {
-               desiredLane = -3;
-           }
-           else
-           {
-               desiredLane -= 3;
-           }
-
-             player.transform.position = Vector3.Lerp(transform.position, new Vector3(desiredLane, transform.position.y, transform.position.z), 5f);
-            */
-            //  player.transform.position = new Vector3(desiredLane, transform.position.y, transform.position.z);
-
-            /*
-            if(this.gameObject.transform.position.x > LevelBoundary.leftSide)
-            {
-                transform.Translate(Vector3.left * horizontalSpeed * Time.deltaTime);
-               // transform.position = Vector3.Lerp(transform.position, new Vector3(-40f, transform.position.y, transform.position.z), Time.deltaTime);
-            }
-            */
+                laneIndex--; 
+            } 
         }
+
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (laneIndex <2)
@@ -122,18 +132,38 @@ public class Player : MonoBehaviour
                 laneIndex++;
             }
         }
+
         if (transform.position.y > 1.8f)
         {
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                //rb.velocity = Vector3.down * jumpPower * Time.deltaTime;
                 StartCoroutine(Fall());
-                /*
-                rb.AddForce(0, -700, 0);
-                animator.SetBool("isJumping", false);
-                animator.SetBool("isFalling", true);
-                */
             }
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            // rb.velocity = Vector3.up * jumpPower* Time.deltaTime;
+
+            wantsToJump = true;
+
+            //StartCoroutine(Jump());
+            // Invoke("Fall", 0.5f);
+        }
+
+        
+    }
+    private void FixedUpdate()
+    {
+        if (wantsToJump)
+        {
+            if (!isJumping)
+            {
+                isJumping = true;
+                StartCoroutine(Jump());
+            }
+            wantsToJump = false;
+
         }
     }
 
@@ -141,12 +171,18 @@ public class Player : MonoBehaviour
     {
         if (collision.collider.CompareTag("Ground"))
         {
+            isJumping = false;
+            /*
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 // rb.velocity = Vector3.up * jumpPower* Time.deltaTime;
+
+                isJumping = false;
+
                 StartCoroutine(Jump());
                 // Invoke("Fall", 0.5f);
             }
+            */
         }
         
     }
@@ -154,7 +190,7 @@ public class Player : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Engel"))
+        if (collision.collider.CompareTag("Obstacle"))
         {
             if (isUntouchable == true)
             {
@@ -172,7 +208,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    onDeath();
+                   StartCoroutine(onDeath());
                     //SceneManager.LoadScene("SampleScene");
                 }
             }
@@ -191,36 +227,46 @@ public class Player : MonoBehaviour
         }
         if (other.CompareTag("MagnetActivator"))
         {
-            Destroy(other.gameObject);
-           // other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            var playerTransform = new Vector3(transform.position.x,transform.position.y + 2,transform.position.z);
+            other.transform.parent = transform;
+            other.transform.localScale = other.transform.localScale / 2;
+            other.transform.position = playerTransform;
             Magnet.isMagnetActive = true;
+            Destroy(other.gameObject,15f);
+           // other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            
             /*
             StartCoroutine(ActivateMagnet());
             Magnet.isMagnetActive = false;*/
         }
     }
-    public IEnumerator ActivateMagnet()
+    public IEnumerator MagnetTime()
     {
-        yield return new WaitForSecondsRealtime(8f);
+        yield return new WaitForSeconds(8f);
     }
-    public void onDeath()
+    public IEnumerator onDeath()
     {
-        isDead = true;
-
-        Time.timeScale = 0;
-
-        gameOverPanel.SetActive(true);
-
         horizontalSpeed = 0;
+        moveSpeed = 0;
+        isDead = true;
+        runParticle.Stop();
+        animator.SetTrigger("Dead");
+        yield return new WaitForSeconds(1.2f);
+        Time.timeScale = 0;
+        gameOverPanel.SetActive(true);
     }
 
     public IEnumerator Jump()
     {
         animator.SetBool("isJumping", true);
-        rb.AddForce(0, jumpPower*Time.deltaTime, 0,ForceMode.Impulse);
+        rb.AddForce(Vector3.up * jumpPower*Time.deltaTime,ForceMode.Impulse);
+        // rb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
+
+        runParticle.Stop();
         yield return new WaitForSeconds(0.8f);
         animator.SetBool("isJumping", false);
-
+        yield return new WaitForSeconds(1.2f);
+        runParticle.Play();
     }
     public IEnumerator Fall()
     {
