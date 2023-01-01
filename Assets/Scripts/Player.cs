@@ -28,9 +28,9 @@ public class Player : MonoBehaviour
 
     public bool isDead;
 
-    private bool isJumping;
+    [SerializeField]private bool isJumping;
 
-    private bool wantsToJump;
+    [SerializeField] private bool wantsToJump;
 
    // public GameObject player;
 
@@ -83,6 +83,8 @@ public class Player : MonoBehaviour
 
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime, Space.World);
 
+        runParticle.transform.position = new Vector3(transform.position.x,0.4f,transform.position.z);
+
         if (distance.score % 100 == 0 && !solverBool)
         {
             moveSpeed +=0.5f ;
@@ -110,42 +112,39 @@ public class Player : MonoBehaviour
         if (immortalMode)
         {
             immortalParticle.Play();
-            Debug.Log("You are immortal");
         }
         else
         {
             immortalParticle.Stop();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || SwipeManager.left)
         {
-            if (laneIndex>0)
-            {
-                laneIndex--; 
-            } 
+            MoveLeft();
+            SwipeManager.left = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow)||SwipeManager.right)
         {
-            if (laneIndex <2)
-            {
-                laneIndex++;
-            }
+            MoveRight();
+            SwipeManager.right = false;
         }
 
         if (transform.position.y > 1.8f)
         {
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKeyDown(KeyCode.DownArrow)|| SwipeManager.down)
             {
                 StartCoroutine(Fall());
+                SwipeManager.down = false;
             }
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow)||SwipeManager.jump)
         {
             // rb.velocity = Vector3.up * jumpPower* Time.deltaTime;
 
             wantsToJump = true;
+            SwipeManager.jump = false;
 
             //StartCoroutine(Jump());
             // Invoke("Fall", 0.5f);
@@ -163,7 +162,6 @@ public class Player : MonoBehaviour
                 StartCoroutine(Jump());
             }
             wantsToJump = false;
-
         }
     }
 
@@ -172,6 +170,7 @@ public class Player : MonoBehaviour
         if (collision.collider.CompareTag("Ground"))
         {
             isJumping = false;
+           // runParticle.Play();
             /*
             if (Input.GetKey(KeyCode.UpArrow))
             {
@@ -184,6 +183,7 @@ public class Player : MonoBehaviour
             }
             */
         }
+        
         
     }
     
@@ -273,5 +273,21 @@ public class Player : MonoBehaviour
         rb.AddForce(0, -jumpPower*3*Time.deltaTime, 0,ForceMode.Impulse);
         yield return new WaitForSeconds(0.2f);
         animator.SetBool("isJumping", false);
+    }
+
+    private void MoveLeft()
+    {
+        if (laneIndex > 0)
+        {
+            laneIndex--;
+
+        }
+    }
+    private void MoveRight()
+    {
+        if (laneIndex < 2)
+        {
+            laneIndex++;
+        }
     }
 }

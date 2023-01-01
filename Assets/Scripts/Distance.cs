@@ -54,7 +54,7 @@ public class Distance : MonoBehaviour
     public IEnumerator AddingDis()
     {
         score += scoreAdd;
-        disBorder.GetComponent<Text>().text = "" + score;
+        disBorder.GetComponent<TextMeshProUGUI>().text = "" + score;
         yield return new WaitForSeconds(addDistanceTime);
         addingDis = false;
     }

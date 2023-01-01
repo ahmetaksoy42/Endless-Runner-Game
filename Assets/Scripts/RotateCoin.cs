@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class RotateCoin : MonoBehaviour
 {
-    public int rotateSpeed = 1;
+    public int rotateSpeed = 100;
 
     void Update()
     {
-        transform.Rotate(0, rotateSpeed, 0,Space.World);
+        transform.Rotate(0, rotateSpeed*Time.deltaTime, 0,Space.World);
     }
     /*
     private void OnTriggerEnter(Collider other)

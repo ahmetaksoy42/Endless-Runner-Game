@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CoinManager : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class CoinManager : MonoBehaviour
 
     void Update()
     {
-        coinCountDisplay.GetComponent<Text>().text = "" + coinCount;
+        //coinCountDisplay.GetComponent<Text>().text = "" + coinCount;
+        coinCountDisplay.GetComponent<TextMeshProUGUI>().text = ""+coinCount;
+
     }
 }
