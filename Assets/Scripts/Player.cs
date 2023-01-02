@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
             solverBool = false;
         }
 
-        if (coinManager.coinCount >= 10 * deadCount)
+        if (coinManager.coinCount >=20)
         {
             if ((deadCount == 0 && coinManager.coinCount >= 10) || (deadCount > 0 && coinManager.coinCount > (deadCount + 1) * 10))
             {
@@ -201,7 +201,7 @@ public class Player : MonoBehaviour
             {
                 deadCount++;
 
-                if (coinManager.coinCount >= 10 * deadCount)
+                if (immortalMode) //coinManager.coinCount >= 10 * deadCount)
                 {
                     Destroy(collision.gameObject);
                     coinManager.coinCount -= 10 * deadCount;
