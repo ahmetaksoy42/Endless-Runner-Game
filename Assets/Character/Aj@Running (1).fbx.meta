@@ -11,25 +11,45 @@ ModelImporter:
     second: Running
   externalObjects:
   - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Boy01_Body_MAT1
+    second: {fileID: 2100000, guid: 496ec47fb5742c345906d1d7103338e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Boy01_Brows_MAT2
+    second: {fileID: 2100000, guid: 64cfcc94845dcf942acf539f8c94f9c9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Boy01_Eyes_MAT2
+    second: {fileID: 2100000, guid: efd2123e3f188d349a0cc891b56ab1b3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Boy01_Mouth_MAT2
+    second: {fileID: 2100000, guid: 4876a3ffd54177044ab281ac1fa5f923, type: 2}
+  - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Boy01_FacialAnimMap
-    second: {fileID: 2800000, guid: f7b35cd55d7ebfb4781f52e1c06e108b, type: 3}
+    second: {fileID: 2800000, guid: 8c72359e2f45c6c44bc55d1b602758fe, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Boy01_diffuse
-    second: {fileID: 2800000, guid: cdaa6b2a6359e2e4ba12ba34fd7da877, type: 3}
+    second: {fileID: 2800000, guid: 8c66f22f410be3345b3a4a3e5a3456a3, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Boy01_normal
-    second: {fileID: 2800000, guid: 1bb0379569f2ce9478e9390e5a5b62a2, type: 3}
+    second: {fileID: 2800000, guid: bae457b7e3a03624bb6dc1c8bcc9a263, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Boy01_spec
-    second: {fileID: 2800000, guid: a7f87c1001af4524897d7954941f4bd4, type: 3}
+    second: {fileID: 2800000, guid: 0ce9b617fdfc781488f42e96f7b82819, type: 3}
   materials:
     materialImportMode: 1
     materialName: 0

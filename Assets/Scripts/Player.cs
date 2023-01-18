@@ -10,6 +10,10 @@ public class Player : MonoBehaviour
 
     [SerializeField] private ParticleSystem immortalParticle;
 
+    [SerializeField] private bool isJumping;
+
+    [SerializeField] private bool wantsToJump;
+
     public bool isGameStarted;
 
     public bool isUntouchable;
@@ -28,29 +32,29 @@ public class Player : MonoBehaviour
 
     public bool isDead;
 
-    [SerializeField]private bool isJumping;
-
-    [SerializeField] private bool wantsToJump;
-
-   // public GameObject player;
-
     public GameObject gameOverPanel;
 
     public GameObject[] lanes;
 
     public Rigidbody rb;
 
-    public Animator animator; 
+    public Animator animator;
 
     public bool immortalMode;
 
+    public int jumpCount = 0;
+
     public static Player Instance;
+
+   // public GameObject player; 
 
     private Distance distance;
 
     private CoinManager coinManager;
 
     private int deadCount = 0;
+
+    private bool isGrounded;
 
     private void Awake()
     {
@@ -87,7 +91,7 @@ public class Player : MonoBehaviour
 
         if (distance.score % 100 == 0 && !solverBool)
         {
-            moveSpeed +=0.5f ;
+            moveSpeed +=1f ;
             distance.addDistanceTime -= 0.01f;
             solverBool = true;
         }
@@ -99,10 +103,12 @@ public class Player : MonoBehaviour
 
         if (coinManager.coinCount >=20)
         {
-            if ((deadCount == 0 && coinManager.coinCount >= 10) || (deadCount > 0 && coinManager.coinCount > (deadCount + 1) * 10))
+            if ((deadCount == 0 && coinManager.coinCount >= 20) || (deadCount > 0 && coinManager.coinCount > (deadCount + 1) * 20))
             {
                 immortalMode = true;
-            }               
+            }
+            else
+                immortalMode = false;
         }
         else
         {
@@ -142,14 +148,11 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.UpArrow)||SwipeManager.jump)
         {
             // rb.velocity = Vector3.up * jumpPower* Time.deltaTime;
-
             wantsToJump = true;
             SwipeManager.jump = false;
-
             //StartCoroutine(Jump());
             // Invoke("Fall", 0.5f);
         }
-
         
     }
     private void FixedUpdate()
@@ -158,8 +161,10 @@ public class Player : MonoBehaviour
         {
             if (!isJumping)
             {
-                isJumping = true;
+                //jumpCount++;
                 StartCoroutine(Jump());
+                isJumping = true;
+
             }
             wantsToJump = false;
         }
@@ -167,23 +172,6 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider.CompareTag("Ground"))
-        {
-            isJumping = false;
-           // runParticle.Play();
-            /*
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                // rb.velocity = Vector3.up * jumpPower* Time.deltaTime;
-
-                isJumping = false;
-
-                StartCoroutine(Jump());
-                // Invoke("Fall", 0.5f);
-            }
-            */
-        }
-        
         
     }
     
@@ -196,7 +184,6 @@ public class Player : MonoBehaviour
             {
                 Physics.IgnoreCollision(collision.collider.GetComponent<Collider>(), GetComponent<Collider>());
             }
-
             else
             {
                 deadCount++;
@@ -204,17 +191,32 @@ public class Player : MonoBehaviour
                 if (immortalMode) //coinManager.coinCount >= 10 * deadCount)
                 {
                     Destroy(collision.gameObject);
-                    coinManager.coinCount -= 10 * deadCount;
+                    coinManager.coinCount -= 20 * deadCount;
                 }
                 else
                 {
                    StartCoroutine(onDeath());
                     //SceneManager.LoadScene("SampleScene");
                 }
-            }
+            }  
+        }
+        if (collision.collider.CompareTag("Ground"))
+        {
+            isJumping = false;
+            // isGrounded = true;
 
-            
-            
+            // runParticle.Play();
+            /*
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                // rb.velocity = Vector3.up * jumpPower* Time.deltaTime;
+
+                isJumping = false;
+
+                StartCoroutine(Jump());
+                // Invoke("Fall", 0.5f);
+            }
+            */
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -270,7 +272,7 @@ public class Player : MonoBehaviour
     }
     public IEnumerator Fall()
     {
-        rb.AddForce(0, -jumpPower*3*Time.deltaTime, 0,ForceMode.Impulse);
+        rb.AddForce(0, -jumpPower*2*Time.deltaTime, 0,ForceMode.Impulse);
         yield return new WaitForSeconds(0.2f);
         animator.SetBool("isJumping", false);
     }
@@ -280,7 +282,6 @@ public class Player : MonoBehaviour
         if (laneIndex > 0)
         {
             laneIndex--;
-
         }
     }
     private void MoveRight()
